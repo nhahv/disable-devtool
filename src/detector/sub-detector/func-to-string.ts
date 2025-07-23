@@ -7,32 +7,32 @@
  * @Description: Coding something
  */
 
-import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
-import {clearLog, log} from 'src/utils/log';
-import {IS} from 'src/utils/util';
+import { Detector } from '../detector';
+import { DetectorType } from '../../utils/enum';
+import { clearLog, log } from '../../utils/log';
+import { IS } from '../../utils/util';
 
 export default class extends Detector {
   count: number;
   func: Function;
 
-  constructor () {
+  constructor() {
     super({
       type: DetectorType.FuncToString,
-      enabled: (!IS.iosChrome && !IS.iosEdge),
+      enabled: !IS.iosChrome && !IS.iosEdge,
     });
   }
 
-  init () {
+  init() {
     this.count = 0;
     this.func = () => {};
     this.func.toString = () => {
-      this.count ++;
+      this.count++;
       return '';
     };
   }
 
-  detect () {
+  detect() {
     this.count = 0;
     log(this.func);
     clearLog();

@@ -5,7 +5,7 @@
  */
  
 import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
+import {DetectorType} from '../../utils/enum';
 
 export default class extends Detector {
 

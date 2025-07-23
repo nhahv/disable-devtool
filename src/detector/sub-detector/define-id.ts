@@ -7,20 +7,20 @@
  * @Description: Coding something
  */
 
-import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
-import {log} from 'src/utils/log';
+import { Detector } from '../detector';
+import { DetectorType } from '../../utils/enum';
+import { log } from '../../utils/log';
 
 export default class extends Detector {
   div: HTMLElement;
 
-  constructor () {
+  constructor() {
     super({
       type: DetectorType.DefineId,
     });
   }
 
-  init () {
+  init() {
     this.div = document.createElement('div');
     (this.div as any).__defineGetter__('id', () => {
       this.onDevToolOpen();
@@ -32,7 +32,7 @@ export default class extends Detector {
     });
   }
 
-  detect () {
+  detect() {
     log(this.div);
   }
 }

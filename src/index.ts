@@ -3,19 +3,19 @@
  * @Date: 2022-09-27 22:49:01
  * @Description: Class-based disable devtool implementation
  */
-import "./utils/log";
-import { disableKeyAndMenu } from "./utils/key-menu";
-import { initInterval } from "./utils/interval";
-import { getUrlParam, initIS, IS } from "./utils/util";
-import { mergeConfig, config } from "./utils/config";
-import md5 from "./utils/md5";
-import version from "./version";
-import { initDetectors } from "./detector/index";
-import { DetectorType } from "./utils/enum";
-import { isDevToolOpened } from "./utils/open-state";
-import { IConfig, IDisableDevtool } from "./type";
-import { initLogs } from "./utils/log";
-import { checkScriptUse } from "./plugins/script-use";
+import './utils/log';
+import { disableKeyAndMenu } from './utils/key-menu';
+import { initInterval } from './utils/interval';
+import { getUrlParam, initIS, IS } from './utils/util';
+import { mergeConfig, config } from './utils/config';
+import md5 from './utils/md5';
+import version from './version';
+import { initDetectors } from './detector/index';
+import { DetectorType } from './utils/enum';
+import { isDevToolOpened } from './utils/open-state';
+import { IConfig, IDisableDevtool } from './type';
+import { initLogs } from './utils/log';
+import { checkScriptUse } from './plugins/script-use';
 
 export class DisableDevtoolClass {
   private _isRunning: boolean = false;
@@ -63,19 +63,19 @@ export class DisableDevtoolClass {
    * @returns Result object with success status and reason
    */
   public init(opts?: Partial<IConfig>): { success: boolean; reason: string } {
-    const r = (reason = "") => ({ success: !reason, reason });
+    const r = (reason = '') => ({ success: !reason, reason });
 
-    if (this._isRunning) return r("already running");
+    if (this._isRunning) return r('already running');
 
     initIS(); // ! 首先初始化env
     initLogs(); // 然后初始化log
     mergeConfig(opts);
 
     // 被 token 绕过 或者
-    if (this.checkTk()) return r("token passed");
+    if (this.checkTk()) return r('token passed');
 
     // 开启了保护seo 并且 是seobot
-    if (config.seo && IS.seoBot) return r("seobot");
+    if (config.seo && IS.seoBot) return r('seobot');
 
     this._isRunning = true;
 
@@ -90,12 +90,12 @@ export class DisableDevtoolClass {
     });
 
     // Update wrapper properties to reflect current state
-    Object.defineProperty(wrapper, "isRunning", {
+    Object.defineProperty(wrapper, 'isRunning', {
       get: () => this._isRunning,
       enumerable: true,
     });
 
-    Object.defineProperty(wrapper, "isSuspend", {
+    Object.defineProperty(wrapper, 'isSuspend', {
       get: () => this._isSuspend,
       set: (value: boolean) => {
         this._isSuspend = value;

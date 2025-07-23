@@ -3,23 +3,28 @@
  * @Date: 2022-09-27 22:16:40
  * @Description: Coding something
  */
-import {IDisableDevtool} from '../type';
-import {Detector} from '../detector/detector';
-import {config} from './config';
-import {clearLog} from './log';
-import {clearDevToolOpenState, checkOnDevClose} from './open-state';
-import {hackAlert, IS, onPageShowHide} from './util';
-import {isIgnored} from 'src/plugins/ignore';
-import DebugLib from 'src/detector/sub-detector/debug-lib';
+import { IDisableDevtool } from '../type';
+import { Detector } from '../detector/detector';
+import { config } from './config';
+import { clearLog } from './log';
+import { clearDevToolOpenState, checkOnDevClose } from './open-state';
+import { hackAlert, IS, onPageShowHide } from './util';
+import { isIgnored } from '../plugins/ignore';
+import DebugLib from '../detector/sub-detector/debug-lib';
 
-let interval: any = 0, timer: any = 0;
+let interval: any = 0,
+  timer: any = 0;
 const calls: Detector[] = [];
 let time = 0;
 
-export function initInterval (dd: IDisableDevtool) {
+export function initInterval(dd: IDisableDevtool) {
   let _pause = false;
-  const pause = () => {_pause = true;};
-  const goon = () => {_pause = false;};
+  const pause = () => {
+    _pause = true;
+  };
+  const goon = () => {
+    _pause = false;
+  };
   hackAlert(pause, goon); // 防止 alert等方法触发了debug延迟计算
   onPageShowHide(goon, pause); // 防止切后台触发了debug延迟计算
 
@@ -28,7 +33,7 @@ export function initInterval (dd: IDisableDevtool) {
     for (const detector of calls) {
       clearDevToolOpenState(detector.type);
       detector.detect(time++);
-    };
+    }
     clearLog();
     checkOnDevClose();
   }, config.interval);
@@ -41,14 +46,14 @@ export function initInterval (dd: IDisableDevtool) {
   }, config.stopIntervalTime);
 }
 
-export function registInterval (detector: Detector) {
+export function registInterval(detector: Detector) {
   calls.push(detector);
 }
 
-export function clearDDInterval () {
+export function clearDDInterval() {
   window.clearInterval(interval);
 }
 
-export function clearDDTimeout () {
+export function clearDDTimeout() {
   window.clearTimeout(timer);
 }

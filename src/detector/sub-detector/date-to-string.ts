@@ -4,33 +4,32 @@
  * @Description: Coding something
  */
 
-import {clearLog, log} from '../../utils/log';
-import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
-import {IS} from 'src/utils/util';
+import { clearLog, log } from '../../utils/log';
+import { Detector } from '../detector';
+import { DetectorType } from '../../utils/enum';
+import { IS } from '../../utils/util';
 
 export default class extends Detector {
-
   date: Date;
   count: 0;
 
-  constructor () {
+  constructor() {
     super({
       type: DetectorType.DateToString,
       enabled: !IS.iosChrome && !IS.iosEdge, // iosChrome 中会有bug
     });
   }
 
-  init () {
+  init() {
     this.count = 0;
     this.date = new Date();
     this.date.toString = () => {
-      this.count ++;
+      this.count++;
       return '';
     };
   }
 
-  detect () {
+  detect() {
     this.count = 0;
     log(this.date);
     clearLog();

@@ -4,30 +4,34 @@
  * @Description: Coding something
  */
 
-import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
-import {clearLog, log, table} from 'src/utils/log';
-import {calculateTime, IS, createLargeObjectArray} from 'src/utils/util';
+import { Detector } from '../detector';
+import { DetectorType } from '../../utils/enum';
+import { clearLog, log, table } from '../../utils/log';
+import { calculateTime, IS, createLargeObjectArray } from '../../utils/util';
 
 export default class extends Detector {
   largeObjectArray: any;
   maxPrintTime: number;
 
-  constructor () {
+  constructor() {
     super({
       type: DetectorType.Performance,
-      enabled: IS.chrome || !IS.mobile
+      enabled: IS.chrome || !IS.mobile,
     });
   }
 
-  init () {
+  init() {
     this.maxPrintTime = 0;
     this.largeObjectArray = createLargeObjectArray();
   }
 
-  detect () {
-    const tablePrintTime = calculateTime(() => {table(this.largeObjectArray);});
-    const logPrintTime = calculateTime(() => {log(this.largeObjectArray);});
+  detect() {
+    const tablePrintTime = calculateTime(() => {
+      table(this.largeObjectArray);
+    });
+    const logPrintTime = calculateTime(() => {
+      log(this.largeObjectArray);
+    });
     this.maxPrintTime = Math.max(this.maxPrintTime, logPrintTime);
 
     clearLog();
@@ -38,5 +42,4 @@ export default class extends Detector {
       this.onDevToolOpen();
     }
   }
-
-};
+}

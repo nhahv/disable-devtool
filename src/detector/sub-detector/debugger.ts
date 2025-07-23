@@ -7,22 +7,23 @@
  * @Description: Coding something
  */
 
-import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
-import {now, IS} from 'src/utils/util';
+import { Detector } from '../detector';
+import { DetectorType } from '../../utils/enum';
+import { now, IS } from '../../utils/util';
 
 export default class extends Detector {
-
-  constructor () {
+  constructor() {
     super({
       type: DetectorType.Debugger,
       enabled: IS.iosChrome || IS.iosEdge,
     });
   }
 
-  detect () {
+  detect() {
     const date = now();
-    (() => {debugger;})();
+    (() => {
+      debugger;
+    })();
     if (now() - date > 100) {
       this.onDevToolOpen();
     }

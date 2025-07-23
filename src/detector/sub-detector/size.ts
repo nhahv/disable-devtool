@@ -4,36 +4,38 @@
  * @Description: Coding something
  */
 
-import {Detector} from '../detector';
-import {DetectorType} from 'src/utils/enum';
-import {IS} from 'src/utils/util';
-import {clearDevToolOpenState} from 'src/utils/open-state';
-
+import { Detector } from '../detector';
+import { DetectorType } from '../../utils/enum';
+import { IS } from '../../utils/util';
+import { clearDevToolOpenState } from '../../utils/open-state';
 
 export default class extends Detector {
-  
-  constructor () {
+  constructor() {
     super({
       type: DetectorType.Size,
-      enabled: (!IS.iframe && !IS.edge)
+      enabled: !IS.iframe && !IS.edge,
     });
   }
 
-  init () {
+  init() {
     this.checkWindowSizeUneven();
-    window.addEventListener('resize', () => {
-      setTimeout(() => {
-        this.checkWindowSizeUneven();
-      }, 100);
-    }, true);
+    window.addEventListener(
+      'resize',
+      () => {
+        setTimeout(() => {
+          this.checkWindowSizeUneven();
+        }, 100);
+      },
+      true,
+    );
   }
 
-  detect () {
-  }
+  detect() {}
 
-  private checkWindowSizeUneven () {
+  private checkWindowSizeUneven() {
     const screenRatio = countScreenZoomRatio();
-    if (screenRatio === false) { // 如果获取不到屏幕缩放尺寸 则不启用sizeDetector
+    if (screenRatio === false) {
+      // 如果获取不到屏幕缩放尺寸 则不启用sizeDetector
       return true;
     }
     const widthUneven = window.outerWidth - window.innerWidth * screenRatio > 200; // 调大一点防止误伤
@@ -45,9 +47,9 @@ export default class extends Detector {
     clearDevToolOpenState(this.type);
     return true;
   }
-};
+}
 
-function countScreenZoomRatio () {
+function countScreenZoomRatio() {
   if (checkExist(window.devicePixelRatio)) {
     return window.devicePixelRatio;
   }
@@ -59,8 +61,8 @@ function countScreenZoomRatio () {
     return screen.deviceXDPI / screen.logicalXDPI;
   }
   return false;
-};
+}
 
-function checkExist (v: any) {
+function checkExist(v: any) {
   return typeof v !== 'undefined' && v !== null;
 }
